@@ -18,26 +18,27 @@ class FormController extends Controller
         $request->validate([
             'path' => 'required',
         ]);
-        
+        // записать url в переменную
         $path =  $request->input('path');
+        // получить данные по url
         $data = Http::timeout(5) -> get($path)->json();
         $json = json_encode($data);
         //dump($data);
          //dd($data);
          // сохранить на диск lacal = storage/app/users
           Storage::disk('local')->put('users/'.time(). '_user.json', $json); 
-         // редирект назад с выводом сообщения в шаблоне form.blade из сессионных переменных: success, data
+         // получить массив файлов из директории users/
          $files = Storage::files('users/');
-         dump($files);
-         die();
-         $array_data = [];
+         // создать массив из массив данных, полученных из файлов директории users/
+         $array = [];
          foreach($files as $item){
-             array_push($array_data, json_decode($item));
+             array_push($array, json_decode(Storage::get($item)));
          }
-         dump($array_data);
-         die();
+         //dump($array);
+         //die();
+        // редирект назад с выводом сообщения в шаблоне form.blade из сессионных переменных: success, data
          return redirect()->back()->with(['success' => 'JSON is uploaded', 
-          'data' => $data]);
+          'array' => $array]);
     }
 
 }

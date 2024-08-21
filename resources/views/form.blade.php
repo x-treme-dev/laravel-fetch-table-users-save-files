@@ -17,16 +17,15 @@
          <input type="submit" value="Отправить">
        </form>
        <br>
+       <!--Вывести значение сессионной переменной $message-->
        @if ($message = Session::get('success'))
        <div>
            <b>{{ $message }}</b>
        </div> 
        @endif
-      
-       @if ($data = Session::get('data'))
-       <div>
-          <!-- {{ print_r($data) }} -->
-           <pre>
+      <!--Проверить сессионную переменную $array, записать ее значение-->
+       @if ($array = Session::get('array'))
+           @foreach($array as $data)
             <table>
                 <tr>
                 <th>First Name</th>
@@ -43,44 +42,47 @@
                 </tr>
                <tbody>
                 @foreach( $data as $item)
-                 <!--Если строка таблицы четная, то красить в серый цвет-->
+              
                   @if (!$loop->even)
                      <tr @style([
                      'background-color:#cacfd2',
                      ])>
-                     <td >{{$item['firstname']}}</td>
-                     <td>{{$item['lastname']}}</td>
-                     <td>{{$item['email']}}</td>
-                     <td>{{$item['birthDate']}}</td>
-                     <td>{{$item['login']['registered']}}</td>
-                     <td>{{$item['address']['city']}}</td>
-                     <td>{{$item['address']['street']}}</td>
-                     <td>{{$item['address']['suite']}}</td>
-                     <td>{{$item['phone']}}</td>
-                     <td>{{$item['website']}}</td>
-                     <td>{{$item['company']['name']}}</td>
+                     <td >{{$item->firstname}}</td>
+                     <td>{{$item->lastname}}</td>
+                     <td>{{$item->email}}</td>
+                     <td>{{$item->birthDate}}</td>
+                     <td>{{$item->login->registered}}</td>
+                     <td>{{$item->address->city}}</td>
+                     <td>{{$item->address->street}}</td>
+                     <td>{{$item->address->suite}}</td>
+                     <td>{{$item->phone}}</td>
+                     <td>{{$item->website}}</td>
+                     <td>{{$item->company->name}}</td>
                      </tr>
-                      <!--Иначе выводим как есть-->  
-                    @else
+                     @else
                     <tr>
-                     <td >{{$item['firstname']}}</td>
-                     <td>{{$item['lastname']}}</td>
-                     <td>{{$item['email']}}</td>
-                     <td>{{$item['birthDate']}}</td>
-                     <td>{{$item['login']['registered']}}</td>
-                     <td>{{$item['address']['city']}}</td>
-                     <td>{{$item['address']['street']}}</td>
-                     <td>{{$item['address']['suite']}}</td>
-                     <td>{{$item['phone']}}</td>
-                     <td>{{$item['website']}}</td>
-                     <td>{{$item['company']['name']}}</td>
+                     <td >{{$item->firstname}}</td>
+                     <td>{{$item->lastname}}</td>
+                     <td>{{$item->email}}</td>
+                     <td>{{$item->birthDate}}</td>
+                     <td>{{$item->login->registered}}</td>
+                     <td>{{$item->address->city}}</td>
+                     <td>{{$item->address->street}}</td>
+                     <td>{{$item->address->suite}}</td>
+                     <td>{{$item->phone}}</td>
+                     <td>{{$item->website}}</td>
+                     <td>{{$item->company->name}}</td>
                      </tr>
                      @endif
                  @endforeach
                 </tbody>
-             </table>
-           </pre>
-       </div> 
+             </table> 
+             <br>
+            <hr>
+              @endforeach
+             
+            </pre>
+             
        @endif
  
     
